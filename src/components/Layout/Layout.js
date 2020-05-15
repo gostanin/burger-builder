@@ -4,7 +4,7 @@ import styles from './Layout.module.css';
 const layout = ( props ) => (
     <React.Fragment>
         <div>
-            Toolbar, SideDrawer, Backdrop
+            Toolbar, SideDrawer
         </div>
         <main className={styles.Content}>
             {props.children}
