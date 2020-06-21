@@ -3,9 +3,9 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     // For testing. Could be turn back into functional component
-    componentWillUpdate() {
-        console.log('[OrderSummary] Will updates')
-    }
+    // componentWillUpdate() {
+    //     console.log('[OrderSummary] Will updates')
+    // }
 
     render () {
         const ingredientSummary = Object.entries(this.props.ingredients).map(el => {

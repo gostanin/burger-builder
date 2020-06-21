@@ -26,7 +26,15 @@ class BurgerBuilder extends Component {
     componentDidMount () {
         axios.get('***REMOVED***ingredients.json')
         .then(response => {
-            this.setState({ingredients: response.data});
+            this.setState((prevState) => {
+                let purch = !prevState.purchasebale;
+                if (Object.values(response.data).reduce((a,b) => a+b, 0) > 0) {
+                    purch = true;
+                }
+                
+                return {purchasebale: purch, ingredients: response.data}
+            });
+    
         })
         .catch(error => {this.setState({error: true})});
     }
@@ -38,28 +46,11 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        // alert('You continued');
-        this.setState({loading: true})
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Max',
-                address: {
-                    street: 'Main 1',
-                    zipCode: '99999',
-                    counry: 'Germany'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fasters'
-        }
-        axios.post('/orders.json', order)
-        .then(response => { 
-            this.setState({loading: false, purchasing: false})
-            console.log(response)
+        this.props.history.push({
+            pathname: '/checkout',
+            state: { ingredients: this.state.ingredients,
+                    totalPrice: this.state.totalPrice}
         })
-        .catch(error => this.setState({loading: false, purchasing: false}));
     }
 
     updatePurchaseState (ingredients) {

@@ -11,7 +11,7 @@ const controls = [
 
 const buildControls = ( props ) => (
     <div className={styles.BuildControls}>
-    {console.log(props)}
+    {/* {console.log(props)} */}
         <p>Price: <strong>{props.price.toFixed(2)}</strong></p>
         {controls.map((ctrl) => (
             <BuildControl 
