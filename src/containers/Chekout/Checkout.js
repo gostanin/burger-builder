@@ -10,6 +10,11 @@ class Checkout extends Component {
         ingredients: {...this.props.location.state.ingredients},
         totalPrice: this.props.location.state.totalPrice
     }
+
+    componentDidMount () {
+        this.setState({ingredients: this.props.location.state.ingredients})
+    }
+
     checkoutCancelled = () => {
         this.props.history.goBack();
     }
