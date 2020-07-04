@@ -21,8 +21,6 @@ class Checkout extends Component {
         let summary = <Redirect to='/'/>
         if (this.props.ingredients) {
             const puchasedRedirect = this.props.purchased ? <Redirect to='/' /> : null
-            console.log(puchasedRedirect)
-            console.log('CHO BLA')
             summary = (
             <div>
                 {puchasedRedirect}
