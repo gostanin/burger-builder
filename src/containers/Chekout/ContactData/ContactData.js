@@ -120,14 +120,12 @@ class ContactData extends Component {
         for (let id in this.state.orderForm) {
             formData[id] = this.state.orderForm[id].value;
         }
-        console.log(formData)
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
             orderData: formData,
             userId: this.props.userId
         };
-        console.log(this.props.token)
         this.props.addNewOrder(order, this.props.token);
     }
 
