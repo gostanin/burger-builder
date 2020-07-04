@@ -12,12 +12,10 @@ import * as actions from './store/actions/index';
 
 class App extends Component {
   componentDidMount () {
-    console.log('dispatching')
     this.props.onTryAutoSign()
   }
   
   render () {
-    console.log(this.props)
     let routes = (
       <Layout>
           <Route path='/' exact component={BurgerBuilder} />

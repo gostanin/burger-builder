@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import {updateObject, checkValidation} from '../../shared/utility';
 
 class Auth extends Component {
     state = {
@@ -48,39 +49,19 @@ class Auth extends Component {
         }
     }
 
-    checkValidation(value, rules) {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
-    }
-
     sumbitHandler = (event) => {
         event.preventDefault();
         this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp)
     }
 
     inputChangeHadler = (event, controlName) => {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: this.checkValidation(event.target.value, this.state.controls[controlName].validation),
-                touched: true
-            }
-        }
+        const updatedControls = updateObject(this.state.controls, {
+            [controlName]: 
+                updateObject(this.state.controls[controlName],
+                {value: event.target.value,
+                valid: checkValidation(event.target.value, this.state.controls[controlName].validation),
+                touched: true})
+        })
         this.setState({controls: updatedControls})
     }
 

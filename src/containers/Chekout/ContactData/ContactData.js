@@ -8,6 +8,7 @@ import styles from './ContactData.module.css';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject, checkValidation } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -93,32 +94,16 @@ class ContactData extends Component {
         formIsValid: false
     }
 
-    checkValidation(value, rules) {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
-    }
-
     changedHandler = (event, id) => {
-        const updatedOrderForm = {...this.state.orderForm};
-        const updatedFormElement = {...updatedOrderForm[id]};
+        const updatedFormElement = updateObject(this.state.orderForm[id], 
+            {value: event.target.value,
+            valid: checkValidation(event.target.value, this.state.orderForm[id].validation),
+            touched: true})
 
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidation(updatedFormElement.value, updatedFormElement.validation)
-        updatedFormElement.touched = true;
-        updatedOrderForm[id] = updatedFormElement;
+        const updatedOrderForm = updateObject(this.state.orderForm, {
+            [id]: updatedFormElement
+        })
+    
 
         let formIsValid = true;
         for (let id in updatedOrderForm) {
