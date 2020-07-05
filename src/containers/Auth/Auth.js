@@ -59,7 +59,7 @@ class Auth extends Component {
             [controlName]: 
                 updateObject(this.state.controls[controlName],
                 {value: event.target.value,
-                valid: this.checkValidation(event.target.value, this.state.controls[controlName].validation),
+                valid: checkValidation(event.target.value, this.state.controls[controlName].validation),
                 touched: true})
         })
         this.setState({controls: updatedControls})
