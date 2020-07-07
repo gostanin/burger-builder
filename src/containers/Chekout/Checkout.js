@@ -1,38 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import { Route, Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
 
+const Checkout = props => {
 
-class Checkout extends Component {
-
-    checkoutCancelled = () => {
-        this.props.history.goBack();
+    const checkoutCancelled = () => {
+        props.history.goBack();
     }
 
-    checkoutContinued = () => {
-        // console.log(this.props.match.url + '/contact-data')
-        this.props.history.replace(this.props.match.url + '/contact-data');
+    const checkoutContinued = () => {
+        props.history.replace(props.match.url + '/contact-data');
     }
 
-    render() {
-        let summary = <Redirect to='/'/>
-        if (this.props.ingredients) {
-            const puchasedRedirect = this.props.purchased ? <Redirect to='/' /> : null
-            summary = (
-            <div>
-                {puchasedRedirect}
-                <CheckoutSummary 
-                ingredients={this.props.ingredients}
-                checkContinue={this.checkoutContinued}
-                checkCancel={this.checkoutCancelled}/>
-                <Route path={this.props.match.url + '/contact-data'} render={(props) => (<ContactData ingredients={this.props.ingredients} totalPrice={this.props.totalPrice} {...props}/>)} />
-            </div>
-            );
-        }
-        return summary;
+    let summary = <Redirect to='/'/>
+    if (props.ingredients) {
+        const puchasedRedirect = props.purchased ? <Redirect to='/' /> : null
+        summary = (
+        <div>
+            {puchasedRedirect}
+            <CheckoutSummary 
+            ingredients={props.ingredients}
+            checkContinue={checkoutContinued}
+            checkCancel={checkoutCancelled}/>
+            <Route path={props.match.url + '/contact-data'} render={(props) => (<ContactData ingredients={props.ingredients} totalPrice={props.totalPrice} {...props}/>)} />
+        </div>
+        );
+
+    return summary;
     }
 }
 

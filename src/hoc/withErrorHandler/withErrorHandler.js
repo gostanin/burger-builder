@@ -1,46 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 
 const withErrorHandler = (WrappedComponent, axios) => {
+    return props => { 
+        const [error, setError] = useState(null);
 
-    return class extends Component { 
-        state = {
-            error: null,
-            reqInterceptor: null,
-            resInterceptor: null,
+        const reqInterceptor = axios.interceptors.request.use(req => {
+            setError(null);
+            return req;
+        });
+
+        const resInterseptor = axios.interceptors.response.use(req => req, err => {
+            setError(err);
+        });
+
+        useEffect(() => { 
+            return () => {
+                axios.interceptors.request.eject(reqInterceptor);
+                axios.interceptors.request.eject(resInterseptor);
+            }
+        }, [reqInterceptor, resInterseptor]);
+
+        const errorConfirmedHandler = () => {
+            setError(null);
         }
 
-        componentWillMount () {
-            this.reqInterceptor = axios.interceptors.request.use(req => {
-                this.setState({error: null})
-                return req;
-            });
-
-            this.resInterseptor = axios.interceptors.response.use(req => req, error => {
-                this.setState({error: error})
-            });
-        }
-
-        componentWillUnmount () {
-            axios.interceptors.request.eject(this.reqInterceptor);
-            axios.interceptors.request.eject(this.resInterceptor);
-        }
-
-        errorConfirmedHandler = () => {
-            this.setState({error: null});
-        }
-
-        render () {
-            return (
-                <React.Fragment>
-                    <Modal show={this.state.error}
-                        orderClick={this.errorConfirmedHandler}>
-                        {this.state.error ? this.state.error.message : null}
-                    </Modal>
-                    <WrappedComponent {...this.props} />
-                </React.Fragment>
-            );
-        }
+        return (
+            <React.Fragment>
+                <Modal show={error}
+                    orderClick={errorConfirmedHandler}>
+                    {error}
+                </Modal>
+                <WrappedComponent {...props} />
+            </React.Fragment>
+        );
+    
     }
 }
 
