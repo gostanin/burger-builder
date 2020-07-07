@@ -41,12 +41,13 @@ const Auth = props => {
     })
     const [isSignUp, setIsSignUp] = useState(true);
 
+    const { onSetAuthRedirect, buildingBurger, authRedirectPath } = props;
 
     useEffect(() => {
-        if (!props.buildingBurger && props.authRedirectPath !== '/') {
-            props.onSetAuthRedirect();
+        if (!buildingBurger && authRedirectPath !== '/') {
+            onSetAuthRedirect();
         }
-    }, [])
+    }, [onSetAuthRedirect, buildingBurger, authRedirectPath])
 
     const sumbitHandler = (event) => {
         event.preventDefault();
