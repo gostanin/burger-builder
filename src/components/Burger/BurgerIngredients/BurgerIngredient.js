@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './BurgerIngredient.module.css';
 import PropTypes from 'prop-types';
 
-const burgerIngredient = ( props ) => {
+const burgerIngredient = props => {
     let ingredient = null;
 
     switch ( props.type ) {
