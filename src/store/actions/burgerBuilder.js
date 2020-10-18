@@ -30,7 +30,7 @@ export const fetchIngredientsFailed = () => {
 
 export const initIngredients = () => {
     return dispatch => {
-        axios.get('***REMOVED***ingredients.json')
+        axios.get(`${process.env.DB_URL}/ingredients.json`)
             .then(response => {
                 dispatch(setIngredients(response.data));
             })
