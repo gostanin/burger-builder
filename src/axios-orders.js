@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const instance = Axios.create({
-    baseURL: '***REMOVED***'
+    baseURL: `${process.env.DB_URL}`
 });
 
 export default instance;

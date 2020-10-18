@@ -47,9 +47,9 @@ export const auth = (email, password, isSignup) => {
             password: password,
             returnSecureToken: true
         }
-        let url = '***REMOVED***:signUp?key=***REMOVED***'
+        let url = `${process.env.API_URL}:signUp?key=${process.env.API_KEY}`
         if (!isSignup) {
-            url = '***REMOVED***:signInWithPassword?key=***REMOVED***'
+            url = `${process.env.API_URL}:signInWithPassword?key=${process.env.API_KEY}`
         }
         axios.post(url, authData)
             .then(response => {
