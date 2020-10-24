@@ -1,4 +1,4 @@
-## Burger builder project.
+## Burger builder project. (Only functional components with hooks)
 
 ### Learning project. 
 
